@@ -12,6 +12,7 @@ import Articles from "./pages/Articles";
 import Login from "./pages/Login";
 import Signup from "./pages/Signup";
 import ProtectedRoute from "./middleware/ProtectedRoute";
+import UpdateMatch from "./pages/UpdateMatch";
 
 function Layout() {
    const location = useLocation();
@@ -29,6 +30,7 @@ function Layout() {
         <Route path="leagues" element={<ProtectedRoute><Leagues /></ProtectedRoute>} />
         <Route path="league" element={<ProtectedRoute><Leagues /></ProtectedRoute>} />
         <Route path="Matches" element={<ProtectedRoute><Matches /></ProtectedRoute>} />
+        <Route path="UpdateMatches" element={<ProtectedRoute><UpdateMatch /></ProtectedRoute>} />
         <Route path="AddMatches" element={<ProtectedRoute><AddMatch /></ProtectedRoute>} />
         <Route path="Articles" element={<ProtectedRoute><Articles /></ProtectedRoute>} />
         <Route path="Login" element={<Login />} />
