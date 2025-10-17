@@ -30,6 +30,10 @@ app.get("/", (req, res) => {
 
 import { userRoute } from "./src/routes/user.route.js";
 app.use('/user',userRoute)
+import { teamRouter } from "./src/routes/team.route.js";
+app.use('/team',teamRouter)
+import { leagueRouter } from "./src/routes/league.route.js";
+app.use('/league', leagueRouter)
 const io =new Server(server)
 io.on('connection', (socket) =>{
 console.log("a new user has connected", socket.id)
