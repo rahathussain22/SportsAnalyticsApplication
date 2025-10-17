@@ -14,7 +14,6 @@ required: true
 role:{
 type:String,
 required:true,
-default: "user",
 trim:true
 },
 refreshToken:{
