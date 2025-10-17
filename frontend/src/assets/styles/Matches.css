@@ -1,0 +1,106 @@
+.matches2 table {
+  width: 70vw;
+  margin-top: 2rem;
+  background-color: white;
+  border-collapse: separate; /* allows radius */
+  border-spacing: 0;
+  border-radius: 1rem; /* rounds the whole table */
+  overflow: hidden; /* clips child elements inside the radius */
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1); /* optional soft shadow */
+}
+.matches2 table tbody td{
+    padding-bottom: 1rem;
+    margin-bottom: 1rem;
+    padding: 1rem 1rem;
+    text-align: left;
+    /* border: 2px solid blue; */
+    border-bottom: 1px solid var(--secondary-100);
+}
+.matches2 table th{
+    padding-bottom: 1rem;
+    margin-bottom: 1rem;
+    border-radius: 1rem;
+    padding: 1rem 1rem;
+    text-align: left;
+}
+.matches2 table thead{
+    background-color: var(--secondary-100);
+    border-radius: 20rem;
+}
+.matches1{
+    /* border: 2px solid blue; */
+    display: flex;
+    justify-content: space-between;
+}
+.matches1 h1{
+    font-size: 2rem;
+    font-weight: 700;
+}
+.matches1 button{
+    background-color: var(--primary-100);
+    border-radius: 0.5rem;
+    color: white;
+    padding: 0.5rem 1rem;
+}
+.matches{
+    padding: 1rem 1rem;
+}
+.matches2 ul{
+    display: flex;
+    gap: 1rem;
+}
+.matches2 li button{
+    margin-top: 1rem;
+    padding-bottom: 0.5rem;
+}
+.matches2 li button.active {
+  color: var(--primary-100);
+  font-weight: bold;
+  border-bottom: 2px solid var(--primary-100);
+}
+@media all and (max-width: 700px),all and (max-height:500px) { /* 700px */
+  .matches2 ul {
+    width: 90%;
+    justify-content: space-between;
+    gap: 2rem;
+  }
+  .matches2{
+    padding: 1rem 0rem;
+    /* padding-right: 1rem; */
+  }
+  .matches1{
+    width: 90vw;
+  }
+
+  .matches2 table {
+    width: 93vw;
+    border-collapse: collapse !important;
+  }
+
+  /* Make header row span full table width */
+  .matches2 table thead {
+    background-color: var(--primary-100);
+    display: table-header-group; 
+  }
+
+  .matches2 table thead tr {
+    width: 100%;
+  }
+
+  .matches2 table thead th {
+    text-align: center;
+    color: white;
+    font-weight: 600;
+    padding: 0.7rem;
+  }
+
+  /* Keep body aligned */
+  .matches2 table tbody tr {
+    display: table-row;
+  }
+
+  .matches2 table tbody td {
+    text-align: center;
+    padding: 0.7rem;
+  }
+}

@@ -1,0 +1,173 @@
+/* General Layout and Reset */
+.add-new-match-container {
+    padding: 0rem 1rem;
+    background-color: var(--secondary-200);
+    display: flex;
+    width: 80vw;
+    justify-content: flex-start;
+}
+
+.add-new-match-form {
+    width: 100%;
+    max-width: 900px;
+    background-color: var(--secondary-200);
+    border-radius: 8px;
+    /* box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08); */
+    padding: 20px 40px;
+}
+
+.add-new-match-form h2 {
+    color: #333;
+    font-size: 1.8rem;
+    margin-bottom: 25px;
+    font-weight: 600;
+}
+
+/* --- Section Styling (from FormSection.jsx) --- */
+.form-section {
+    border: 1px solid #e0e0e0;
+    border-radius: 6px;
+    padding: 20px;
+    margin-bottom: 25px;
+}
+
+.section-title {
+    font-size: 1.1rem;
+    color: #555;
+    font-weight: 700;
+    margin-top: 0;
+    margin-bottom: 20px;
+}
+
+/* Layout Classes */
+.section-content.two-columns {
+    /* Standard two-column grid */
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 15px 30px;
+}
+
+.section-content.four-columns {
+    /* Predictions section grid */
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 15px 30px;
+}
+
+/* --- Form Group and Field Styling --- */
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+}
+
+/* Used for textareas that need to span across columns */
+.form-group.full-width {
+    grid-column: 1 / -1;
+}
+
+.form-group label {
+    font-size: 0.9rem;
+    color: #666;
+    margin-bottom: 5px;
+    font-weight: 500;
+}
+
+.form-group input,
+.form-group select,
+.form-group textarea {
+    padding: 10px 12px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 1rem;
+    color: #333;
+    transition: border-color 0.2s;
+    background-color: #fff;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+.form-group input:focus,
+.form-group select:focus,
+.form-group textarea:focus {
+    border-color: #007bff;
+    outline: none;
+    box-shadow: 0 0 0 1px #007bff;
+}
+
+/* Custom styling for the Sport dropdown arrow */
+.sport-select {
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 12 12"><path fill="%23666" d="M10.293 3.293L6 7.586 1.707 3.293a1 1 0 00-1.414 1.414l5 5a1 1 0 001.414 0l5-5a1 1 0 10-1.414-1.414z"/></svg>');
+    background-repeat: no-repeat;
+    background-position: right 10px center;
+    padding-right: 30px;
+}
+
+/* --- Form Actions (Buttons) --- */
+
+.form-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+    margin-top: 20px;
+    padding-top: 15px;
+}
+
+.btn {
+    padding: 10px 20px;
+    font-size: 1rem;
+    font-weight: 600;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.2s, opacity 0.2s;
+}
+
+.btn-cancel {
+    background-color: transparent;
+    color: #666;
+}
+
+.btn-cancel:hover {
+    color: #333;
+}
+
+.btn-save {
+    background: linear-gradient(
+        180deg,
+        var(--primary-100),
+        var(--primary-200)
+    );
+    color: white;
+}
+
+.btn-save:hover {
+    background: linear-gradient(
+        0deg,
+        var(--primary-100),
+        var(--primary-200)
+    )
+}
+
+/* --- Responsive Adjustments --- */
+@media all and (max-width: 700px ),all and (max-height:500px) {
+    .add-new-match-form {
+        padding: 1.2rem;
+    }
+    .add-new-match-container {
+        width: 100vw;
+}
+    .section-content.two-columns,
+    .section-content.four-columns {
+        /* On small screens, stack all fields */
+        grid-template-columns: 1fr;
+    }
+}
+/* Make the last field (BTTS) take full width in the predictions section */
+.section-content.four-columns .form-group:last-child {
+  grid-column: 1 / 1;
+}
+

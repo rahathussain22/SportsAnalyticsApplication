@@ -1,0 +1,92 @@
+.LoginCard{
+padding: 1rem 1rem;
+height: auto;
+width: 30vw;
+background-color: transparent;
+  backdrop-filter: blur(30px);
+}
+.LoginCard h1{
+    font-size: 2rem;
+    color: white;
+    font-weight: 900;
+    margin-bottom: 2rem;
+}
+.LoginCard h1 span{
+    color: var(--primary-100);
+}
+.LoginCard form{
+    display: flex;
+    flex-direction: column;
+    gap: 1.3rem;
+}
+.LoginCard form input{
+    color: var(--primary-100);
+    padding: 1rem 1rem;
+    font-size: 1.2rem;
+    border: 2px solid var(--primary-100);
+}
+.LoginCard button{
+    color: white;
+    width: 10vw;
+    font-size: 1.2rem;
+    font-weight: 900;
+    padding: 0.5rem 2rem;
+    align-self: center  ;
+    background-color: var(--primary-100);
+}
+.Login{
+    background-image: url('../Images/Dashboard1.jpg');
+    background-position: center;
+    background-size: contain;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+@media all and (max-width:700px) {
+    .LoginCard{
+        width: 70vw;
+        height: auto;
+        padding: 0.5rem 1rem;
+    }
+    .LoginCard form input{
+        padding: 0.6rem 1rem;
+    }
+    .LoginCard h1{
+        font-size: 1.7rem;
+    }
+    .LoginCard button{
+        padding: 1rem 1rem;
+        width: 40vw;
+    }
+    .Login{
+        height: 100dvh;
+    }
+}
+@media all and (max-height:500px) {
+    .LoginCard{
+        margin-top: 2rem;
+        width: 40vw;
+        height: 81vh;
+        padding: 0.5rem 1rem;
+    }
+    .LoginCard h1{
+        font-size: 1.5rem;
+        margin-bottom: 0.5rem;
+    }
+    .LoginCard form input{
+        padding: 0.4rem 0.5rem;
+    }
+    .LoginCard form{
+        gap: 0.5rem;
+    }
+    .LoginCard form button{
+        width: 12vw;
+        margin: 0;
+        padding: 0rem 0rem;
+    }
+    .Login{
+        align-items: baseline;
+        height: 100vh;
+    }
+}
