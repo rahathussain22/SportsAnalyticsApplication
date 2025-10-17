@@ -51,8 +51,7 @@ function Login() {
           <input type="text" name="" id="" placeholder='Email' onChange={(e) => setEmail(e.target.value)} />
           <input type="text" name="" id="" placeholder='Password' onChange={(e) => setPassword(e.target.value)} />
           <button type='submit'>Login</button>
-          <button><button type='button' onClick={() => navigate('/signup')}>Sign Up</button>
-       </button>
+          <button type='button' onClick={() => navigate('/signup')}>Sign Up</button>
         </form>
       </div>
     </div>
