@@ -1,0 +1,71 @@
+.AddLeagues{
+    width: 80vw;
+    background-color: var(--secondary-200);
+}
+.AddLeagues h2{
+    font-size: 2rem;
+    font-weight: 800;
+    text-align: center;
+}
+.AddLeagues form{
+    box-shadow: 0rem 0rem 0.2rem 0rem gray;
+    width: 80%;
+    padding: 2rem 2rem;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: 1fr 1fr;
+    gap: 1.5rem;
+}
+.AddLeagues form input{
+    background-color: white;
+    color: gray;
+    height: 2.7rem;
+    width: 70%;
+    margin-top: 0.5rem;
+}
+.AddLeagues form textarea{
+    background-color: white;
+    color: gray;
+    height: 7rem;
+    width: 85%;
+    margin-top: 0.5rem;
+}
+.AddLeagues form > :nth-child(7) {
+  grid-column: 1 / -1;
+}
+.AddLeagues form > :nth-child(8) {
+    display: flex;
+    justify-content: center;
+     grid-column: 1 / -1;
+}
+.AddLeagues form button{
+    text-align: center;
+    padding: 1rem 1rem;
+    background-color: var(--primary-100);
+    color: white;
+}
+.AddLeagues form button:hover{
+    background-color: var(--primary-200);
+}
+.AddLeagues form label{
+    display: block;
+}
+.AddLeaguesFormContainer{
+    width: 100%;
+    margin-bottom: 1rem;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+}
+@media all and (max-width:700px),all and (max-height:500px) {
+ .AddLeagues{
+    width: 100vw;
+ }   
+ .AddLeagues form{
+    width: 90vw;
+ }
+ .AddLeagues form input{
+    height: 2rem;
+    width: 100%;
+ }
+}

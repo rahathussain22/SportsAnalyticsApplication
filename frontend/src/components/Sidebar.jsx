@@ -12,6 +12,7 @@ function Sidebar() {
     { name: 'Dashboard', path: '/' },
     { name: 'Sports', path: '/sports' },
     { name: 'Leagues', path: '/leagues' },
+    { name: 'Teams', path: '/teams' },
     { name: 'Matches', path: '/matches' },
     { name: 'Articles', path: '/articles' },
   ];

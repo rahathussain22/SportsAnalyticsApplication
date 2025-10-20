@@ -3,7 +3,7 @@ import { BrowserRouter as Router, Routes, Route, Link,useLocation } from "react-
 import Home from "./pages/Home";
 import 'react-toastify/dist/ReactToastify.css';
 import './assets/styles/toast.css'
-import Leagues from "./pages/Leagues";
+import Leagues from "./pages/Leagues.jsx";
 import Sidebar from "./components/Sidebar";
 import Matches from "./pages/Matches";
 import { ToastContainer, toast } from 'react-toastify';
@@ -13,6 +13,9 @@ import Login from "./pages/Login";
 import Signup from "./pages/Signup";
 import ProtectedRoute from "./middleware/ProtectedRoute";
 import UpdateMatch from "./pages/UpdateMatch";
+import Teams from "./pages/Teams";
+import AddLeagues from "./pages/AddLeagues";
+import AddTeams from "./pages/AddTeams";
 
 function Layout() {
    const location = useLocation();
@@ -29,9 +32,13 @@ function Layout() {
         <Route path="/home" element={<ProtectedRoute><Home /></ProtectedRoute>} />
         <Route path="leagues" element={<ProtectedRoute><Leagues /></ProtectedRoute>} />
         <Route path="league" element={<ProtectedRoute><Leagues /></ProtectedRoute>} />
+        <Route path="team" element={<ProtectedRoute><Teams /></ProtectedRoute>} />
+        <Route path="teams" element={<ProtectedRoute><Teams /></ProtectedRoute>} />
         <Route path="Matches" element={<ProtectedRoute><Matches /></ProtectedRoute>} />
         <Route path="UpdateMatches" element={<ProtectedRoute><UpdateMatch /></ProtectedRoute>} />
         <Route path="AddMatches" element={<ProtectedRoute><AddMatch /></ProtectedRoute>} />
+        <Route path="AddLeagues" element={<ProtectedRoute><AddLeagues /></ProtectedRoute>} />
+        <Route path="AddTeams" element={<ProtectedRoute><AddTeams /></ProtectedRoute>} />
         <Route path="Articles" element={<ProtectedRoute><Articles /></ProtectedRoute>} />
         <Route path="Login" element={<Login />} />
         <Route path="Signup" element={<Signup />} />
