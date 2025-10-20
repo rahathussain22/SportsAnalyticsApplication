@@ -2,6 +2,9 @@ import mongoose, { Schema } from "mongoose";
 
 const matchSchema = new mongoose.Schema({
   // Basic Info
+  matchNumber:{
+    type:Number
+  },
   home: {
     type: mongoose.Types.ObjectId,
     ref: 'Team',
@@ -28,41 +31,35 @@ const matchSchema = new mongoose.Schema({
 
   status: {
     type: String,
-    enum: ['upcoming', 'live', 'completed', 'postponed'],
+    enum: ['upcoming', 'live', 'completed', 'postponed', 'pending'],
     default: 'upcoming'
   },
-   currentMinute: {
+  currentMinute: {
     type: Number,
     default: 0
   },
 
   // Scores
-  score: {
-    teamA: { type: Number, default: 0 },
-    teamB: { type: Number, default: 0 }
-  },
-  halftimeScore: {
-    teamA: { type: Number, default: 0 },
-    teamB: { type: Number, default: 0 }
-  },
-
-  // Referee and Officials
- 
+  score: [{
+    team: { type: mongoose.Types.ObjectId, ref: 'Team' },
+    score: { type: Number, default: 0 }
+  }],
+  halftimeScore: [{
+    team: { type: mongoose.Types.ObjectId, ref: 'Team' },
+    score: { type: Number, default: 0 }
+  }],
 
   // Key Events
-  events: [
-    {
-      type: {
-        type: String,
-        enum: ['goal', 'yellow_card', 'red_card', 'substitution', 'foul', 'penalty', 'offside'],
-      },
-      minute: Number,
-      player: String,
-      assistingPlayer: String,
-      team: String,
-      description: String
-    }
-  ],
+  events: [{
+    type: {
+      type: String,
+      enum: ['goal', 'yellow_card', 'red_card', 'substitution', 'foul', 'penalty', 'offside'],
+      required: true
+    },
+    minute: {
+      type: Number      
+    },
+  }],
 
   // Team Statistics (aggregated)
   statistics: {
@@ -94,15 +91,15 @@ const matchSchema = new mongoose.Schema({
 
   // Winner Info
   winner: {
-    type: String, // 'teamA', 'teamB', or 'draw'
+    type: mongoose.Types.ObjectId, // Reference to the winning team
+    ref: 'Team',
     default: null
   },
-  
-  prediction:{
-    type: String
 
-  }
-
+  // Prediction
+  prediction: {
+  type: String
+  },
 }, { timestamps: true });
 
 export const Match = mongoose.model('Match', matchSchema);

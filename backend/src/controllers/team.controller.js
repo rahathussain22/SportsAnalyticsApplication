@@ -3,9 +3,9 @@ import { League } from "../models/league.model.js";
 // ===========================
 // Add a new team
 // ===========================
-export const addTeam = async (req, res) => {
+const addTeam = async (req, res) => {
   try {
-    const { name, logo, homeStadium, league } = req.body;
+    const { name, logo, homeStadium, leagueName } = req.body;
 
     // 1️⃣ Check if the team already exists
     const existingTeam = await Team.findOne({ name });
@@ -16,8 +16,8 @@ export const addTeam = async (req, res) => {
       });
     }
 
-    // 2️⃣ Check if the league exists
-    const existingLeague = await League.findById(league);
+    // 2️⃣ Check if the league exists by name
+    const existingLeague = await League.findOne({ name: leagueName });
     if (!existingLeague) {
       return res.status(404).json({
         success: false,
@@ -30,7 +30,7 @@ export const addTeam = async (req, res) => {
       name,
       logo,
       homeStadium,
-      league
+      league: existingLeague._id // Use the league's _id to reference the league
     });
     await newTeam.save();
 
@@ -58,7 +58,7 @@ export const addTeam = async (req, res) => {
 // ===========================
 // Get all teams
 // ===========================
-export const getAllTeams = async (req, res) => {
+const getAllTeams = async (req, res) => {
   try {
     const teams = await Team.find().populate("league", "name");
     res.status(200).json({
@@ -78,7 +78,7 @@ export const getAllTeams = async (req, res) => {
 // ===========================
 // Get single team by ID
 // ===========================
-export const getTeamById = async (req, res) => {
+const getTeamById = async (req, res) => {
   try {
     const team = await Team.findById(req.params.id)
       .populate("league", "name")
@@ -103,3 +103,4 @@ export const getTeamById = async (req, res) => {
     });
   }
 };
+export {addTeam, getAllTeams, getTeamById}

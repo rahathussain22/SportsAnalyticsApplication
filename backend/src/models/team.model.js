@@ -1,4 +1,5 @@
 import mongoose, { Schema } from "mongoose";
+import { ref } from "process";
 
 const teamSchema = new mongoose.Schema({
   // Basic Info
@@ -18,6 +19,10 @@ const teamSchema = new mongoose.Schema({
     type: String
   },
 
+  league:{
+    type: mongoose.Types.ObjectId,
+    ref: 'League'
+  },
  // Match History (array of matches the team has played)
   matchHistory: [
     {

@@ -34,6 +34,8 @@ import { teamRouter } from "./src/routes/team.route.js";
 app.use('/team',teamRouter)
 import { leagueRouter } from "./src/routes/league.route.js";
 app.use('/league', leagueRouter)
+import { matchRouter } from "./src/routes/match.route.js";
+app.use('/match', matchRouter)
 const io =new Server(server)
 io.on('connection', (socket) =>{
 console.log("a new user has connected", socket.id)
