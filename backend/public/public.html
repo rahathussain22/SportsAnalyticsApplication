@@ -3,13 +3,141 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Chat App web Screen</title>
+    <title>Live Match Updates</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background-color: #f4f4f9;
+        }
+
+        .match-card {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            margin-bottom: 20px;
+        }
+
+        .match-header {
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .match-header h2 {
+            margin: 0;
+        }
+
+        .score {
+            font-size: 24px;
+            font-weight: bold;
+        }
+
+        .status {
+            font-size: 18px;
+            color: green;
+            font-weight: bold;
+        }
+
+        .current-minute {
+            font-size: 16px;
+            color: #555;
+        }
+
+        .events {
+            margin-top: 20px;
+        }
+
+        .event-item {
+            margin: 5px 0;
+        }
+
+        .venue,
+        .date {
+            font-size: 14px;
+            color: #777;
+        }
+    </style>
 </head>
 <body>
-    <h1>Chatting</h1>
- <script src="/socket.io/socket.io.js"></script>
+    <h1>Live Match Updates</h1>
+
+    <!-- Match Card Template -->
+    <div id="match-card" class="match-card">
+        <div class="match-header">
+            <h2 id="home-team">Home Team</h2>
+            <h2 id="away-team">Away Team</h2>
+        </div>
+
+        <div class="score">
+            <span id="score-home">0</span> - <span id="score-away">0</span>
+        </div>
+
+        <div class="status" id="status">Status: Live</div>
+        <div class="current-minute" id="current-minute">Minute: 0</div>
+
+        <div class="venue" id="venue">Venue: Old Trafford</div>
+        <div class="date" id="match-date">Match Date: 2025-11-10</div>
+
+        <div class="events">
+            <h3>Events</h3>
+            <ul id="events-list">
+                <!-- Event list items will be appended here -->
+            </ul>
+        </div>
+    </div>
+
+    <script src="/socket.io/socket.io.js"></script>
     <script>
-  var socket = io();
-</script>
+        const socket = io();
+
+        // Listen for 'matchUpdated' event from server
+        socket.on('matchUpdated', (data) => {
+            console.log("Received match data:", data);
+
+            const matchData = data.data; // Access match data from response
+
+            // Check if matchData exists and is correctly structured
+            if (matchData) {
+                // Update match card with new data
+                document.getElementById('home-team').innerText = matchData.home || 'Home Team';
+                document.getElementById('away-team').innerText = matchData.away || 'Away Team';
+                document.getElementById('score-home').innerText = matchData.score[0]?.score || 0;
+                document.getElementById('score-away').innerText = matchData.score[1]?.score || 0;
+                document.getElementById('status').innerText = `Status: ${matchData.status}`;
+                document.getElementById('current-minute').innerText = `Minute: ${matchData.currentMinute}`;
+                document.getElementById('venue').innerText = `Venue: ${matchData.venue}`;
+                document.getElementById('match-date').innerText = `Match Date: ${new Date(matchData.date).toLocaleString()}`;
+
+                // Handle events
+                const eventsList = document.getElementById('events-list');
+                eventsList.innerHTML = ''; // Clear existing events
+
+                if (matchData.events && matchData.events.length > 0) {
+                    matchData.events.forEach(event => {
+                        console.log("Event:", event); // Log each event object
+
+                        // Create event list item
+                        const li = document.createElement('li');
+                        li.className = 'event-item';
+
+                        // Check event type and minute
+                        const eventDescription = `Event: ${event.type} at minute ${event.minute}`;
+                        li.innerText = eventDescription || 'Event description not available';
+                        eventsList.appendChild(li);
+                    });
+                } else {
+                    // Handle case when there are no events
+                    const li = document.createElement('li');
+                    li.className = 'event-item';
+                    li.innerText = 'No events yet';
+                    eventsList.appendChild(li);
+                }
+            } else {
+                console.log("Match data is undefined or malformed:", matchData);
+            }
+        });
+    </script>
 </body>
 </html>
