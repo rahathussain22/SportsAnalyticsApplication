@@ -119,4 +119,43 @@ const updateMatch = async (req, res) => {
 };
 
 
-export { addMatch, updateMatch };
+const getAllMatches = async (req, res) => {
+  try {
+    const { page = 1, limit = 10 } = req.query;  // Default to page 1 and 10 matches per page
+
+    // Convert page and limit to integers
+    const pageNumber = parseInt(page);
+    const limitNumber = parseInt(limit);
+
+    // Find all matches with pagination
+    const matches = await Match.find()
+      .skip((pageNumber - 1) * limitNumber)  // Skip the previous pages' data
+      .limit(limitNumber)  // Limit the number of matches returned
+
+    // Count total matches for pagination info
+    const totalMatches = await Match.countDocuments();
+
+    res.status(200).json({
+      success: true,
+      message: "Matches fetched successfully.",
+      data: matches,
+      pagination: {
+        totalMatches,
+        totalPages: Math.ceil(totalMatches / limitNumber),
+        currentPage: pageNumber,
+        perPage: limitNumber
+      }
+    });
+
+  } catch (error) {
+    console.error("Error fetching matches:", error);
+    res.status(500).json({
+      success: false,
+      message: "Internal Server Error",
+      error: error.message
+    });
+  }
+};
+
+
+export { addMatch, updateMatch, getAllMatches };

@@ -48,6 +48,10 @@ const matchSchema = new mongoose.Schema({
     team: { type: mongoose.Types.ObjectId, ref: 'Team' },
     score: { type: Number, default: 0 }
   }],
+  fulltimeScore: [{
+    team: { type: mongoose.Types.ObjectId, ref: 'Team' },
+    score: { type: Number, default: 0 }
+  }],
 
   // Key Events
   events: [{
