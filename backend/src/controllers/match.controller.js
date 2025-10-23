@@ -1,6 +1,7 @@
 import { Match } from "../models/matches.model.js";
 import { League } from "../models/league.model.js";
 import { io } from "../../app.js"; // Importing the Socket.io instance
+import mongoose from 'mongoose';
 
 const addMatch = async (req, res) => {
   try {
