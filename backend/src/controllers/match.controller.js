@@ -1,7 +1,7 @@
 import { Match } from "../models/matches.model.js";
 import { League } from "../models/league.model.js";
 import { io } from "../../app.js"; // Importing the Socket.io instance
-
+import mongoose from "mongoose";
 const addMatch = async (req, res) => {
   try {
     const { matchNumber, home, away, date, venue, leagueId } = req.body;
@@ -131,10 +131,28 @@ const getAllMatches = async (req, res) => {
     const matches = await Match.find()
       .skip((pageNumber - 1) * limitNumber)  // Skip the previous pages' data
       .limit(limitNumber)  // Limit the number of matches returned
+      .populate({
+        path: 'home',
+        select: 'name logo' // Populate home team with name and logo
+      })
+      .populate({
+        path: 'away',
+        select: 'name logo' // Populate away team with name and logo
+      })
+      .populate({
+        path: 'score.team',
+        select: 'name logo' // Populate teams in score with name and logo
+      })
+      .populate({
+        path: 'winner',
+        select: 'name logo' // Populate winner team with name and logo
+      })
+      .select('matchNumber date venue status prediction score halftimeScore fulltimeScore events statistics winner startTime') // Select relevant match fields
 
     // Count total matches for pagination info
     const totalMatches = await Match.countDocuments();
 
+    // Return the data in the response
     res.status(200).json({
       success: true,
       message: "Matches fetched successfully.",
@@ -156,6 +174,7 @@ const getAllMatches = async (req, res) => {
     });
   }
 };
+
 
 
 export { addMatch, updateMatch, getAllMatches };
