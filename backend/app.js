@@ -24,9 +24,10 @@ app.use(cors({
 
 app.use(express.json());
 app.use(express.static(path.join(__dirname, "public")));
-app.get("/", (req, res) => {
-  res.sendFile(path.join(__dirname, "public", "public.html"));
-});
+app.get("/",getLeaguesWithMatches);
+// app.get("/", (req, res) => {
+//   res.sendFile(path.join(__dirname, "public", "public.html"));
+// });
 
 import { userRoute } from "./src/routes/user.route.js";
 app.use('/user', userRoute);
@@ -35,6 +36,7 @@ app.use('/team', teamRouter);
 import { leagueRouter } from "./src/routes/league.route.js";
 app.use('/league', leagueRouter);
 import { matchRouter } from "./src/routes/match.route.js";
+import { getLeaguesWithMatches } from "./src/controllers/league.controller.js";
 app.use('/match', matchRouter);
 export { server, io };
 export default app;
