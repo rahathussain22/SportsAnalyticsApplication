@@ -24,10 +24,10 @@ app.use(cors({
 
 app.use(express.json());
 app.use(express.static(path.join(__dirname, "public")));
-app.get("/",getLeaguesWithMatches);
-// app.get("/", (req, res) => {
-//   res.sendFile(path.join(__dirname, "public", "public.html"));
-// });
+// app.get("/",getLeaguesWithMatches);
+app.get("/", (req, res) => {
+  res.sendFile(path.join(__dirname, "public", "public.html"));
+});
 
 import { userRoute } from "./src/routes/user.route.js";
 app.use('/user', userRoute);

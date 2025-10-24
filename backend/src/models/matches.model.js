@@ -101,8 +101,17 @@ const matchSchema = new mongoose.Schema({
   },
 
   // Prediction
-  prediction: {
-  type: String
+  homePrediction: {
+  type: Number,
+  default: 0
+  },
+  awayPrediction: {
+  type: Number,
+   default: 0
+  },
+  drawPrediction: {
+  type: Number,
+   default: 0
   },
 }, { timestamps: true });
 
