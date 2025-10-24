@@ -54,7 +54,7 @@ const getLeaguesWithMatches = async (req, res) => {
       })
       .populate({
         path: 'matches',
-        select: 'date venue status prediction score halftimeScore fulltimeScore events statistics winner',
+        select: 'date startTime venue status prediction score halftimeScore fulltimeScore events statistics winner',
         populate: [
           {
             path: 'home',

@@ -19,7 +19,7 @@ const matchSchema = new mongoose.Schema({
     type: Date,
     required: true
   },
-  venue: {
+   venue: {
     type: String,
     required: true
   },
