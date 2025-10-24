@@ -4,7 +4,7 @@ import { io } from "../../app.js"; // Importing the Socket.io instance
 import mongoose from "mongoose";
 const addMatch = async (req, res) => {
   try {
-    const { matchNumber, home, away, date, venue, leagueId } = req.body;
+    const { matchNumber, home, away, date, venue, leagueId, homePrediction, awayPrediction, drawPrediction } = req.body;
 
     const homeId = new mongoose.Types.ObjectId(home);
     const awayId = new mongoose.Types.ObjectId(away);
@@ -30,7 +30,10 @@ const addMatch = async (req, res) => {
       away: awayId,
       date,
       venue,
-      league: leagueId
+      league: leagueId,
+      homePrediction,
+      awayPrediction,
+      drawPrediction
     });
     await newMatch.save();
 
@@ -73,7 +76,7 @@ const updateMatch = async (req, res) => {
         message: "Match not found."
       });
     }
-
+     
     // Update match fields if provided
     if (score) {
       match.score = score;  // Update score
@@ -94,13 +97,14 @@ const updateMatch = async (req, res) => {
     // Save the updated match data
     await match.save();
 
-    // Emit the updated match data to all connected clients
-   io.emit('matchUpdated', {
-  success: true,
-  message: "Match updated",
-  matchData: match
-});
+    // Emitting updated match data to all connected clients
+    io.emit('matchUpdated', {
+      success: true,
+      message: "Match updated",
+      matchData: match
+    });
 
+    console.log("io emitted successfully")
     // Return success response
     res.status(200).json({
       success: true,
@@ -147,7 +151,7 @@ const getAllMatches = async (req, res) => {
         path: 'winner',
         select: 'name logo' // Populate winner team with name and logo
       })
-      .select('matchNumber date venue status prediction score halftimeScore fulltimeScore events statistics winner startTime') // Select relevant match fields
+      .select('matchNumber date venue status score halftimeScore fulltimeScore events statistics winner startTime homePrediction awayPrediction drawPrediction') // Select relevant match fields
 
     // Count total matches for pagination info
     const totalMatches = await Match.countDocuments();
@@ -174,7 +178,5 @@ const getAllMatches = async (req, res) => {
     });
   }
 };
-
-
 
 export { addMatch, updateMatch, getAllMatches };

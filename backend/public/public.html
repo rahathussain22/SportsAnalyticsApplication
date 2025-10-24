@@ -1,143 +1,143 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Live Match Updates</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            margin: 0;
-            padding: 20px;
-            background-color: #f4f4f9;
-        }
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Live Football Match Updates</title>
+  <script src="https://cdn.socket.io/4.7.5/socket.io.min.js"></script>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f4f6f8;
+      margin: 0;
+      padding: 20px;
+      color: #333;
+    }
 
-        .match-card {
-            background-color: #fff;
-            padding: 20px;
-            border-radius: 8px;
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-            margin-bottom: 20px;
-        }
+    h1 {
+      text-align: center;
+      color: #0066cc;
+    }
 
-        .match-header {
-            display: flex;
-            justify-content: space-between;
-        }
+    .match-card {
+      max-width: 600px;
+      margin: 20px auto;
+      background: white;
+      border-radius: 12px;
+      box-shadow: 0 3px 8px rgba(0, 0, 0, 0.1);
+      padding: 20px;
+    }
 
-        .match-header h2 {
-            margin: 0;
-        }
+    .match-info {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 15px;
+    }
 
-        .score {
-            font-size: 24px;
-            font-weight: bold;
-        }
+    .teams {
+      display: flex;
+      justify-content: space-around;
+      align-items: center;
+      margin-bottom: 10px;
+    }
 
-        .status {
-            font-size: 18px;
-            color: green;
-            font-weight: bold;
-        }
+    .team {
+      text-align: center;
+    }
 
-        .current-minute {
-            font-size: 16px;
-            color: #555;
-        }
+    .score {
+      font-size: 32px;
+      font-weight: bold;
+      color: #222;
+    }
 
-        .events {
-            margin-top: 20px;
-        }
+    .events {
+      margin-top: 10px;
+      background-color: #f9fafb;
+      border-radius: 8px;
+      padding: 10px;
+    }
 
-        .event-item {
-            margin: 5px 0;
-        }
+    .event-item {
+      padding: 5px 0;
+      border-bottom: 1px solid #ddd;
+    }
 
-        .venue,
-        .date {
-            font-size: 14px;
-            color: #777;
-        }
-    </style>
+    .event-item:last-child {
+      border-bottom: none;
+    }
+
+    .live {
+      color: red;
+      font-weight: bold;
+    }
+
+    .completed {
+      color: green;
+      font-weight: bold;
+    }
+  </style>
 </head>
 <body>
-    <h1>Live Match Updates</h1>
+  <h1>⚽ Live Football Match</h1>
+  <div id="match-container" class="match-card">
+    <p>Waiting for live updates...</p>
+  </div>
 
-    <!-- Match Card Template -->
-    <div id="match-card" class="match-card">
-        <div class="match-header">
-            <h2 id="home-team">Home Team</h2>
-            <h2 id="away-team">Away Team</h2>
+  <script>
+    // Connect to backend server
+    const socket = io("http://localhost:9000", {
+      transports: ["websocket"],
+    });
+
+    const matchContainer = document.getElementById("match-container");
+
+    socket.on("connect", () => {
+      console.log("Connected to server:", socket.id);
+    });
+
+    // Listen for match updates
+    socket.on("matchUpdated", (data) => {
+      console.log("Received match update:", data);
+      const match = data.matchData; // match object from your backend response
+
+      matchContainer.innerHTML = `
+        <div class="match-info">
+          <h2>Match #${match.matchNumber}</h2>
+          <span class="${match.status === "live" ? "live" : "completed"}">
+            ${match.status.toUpperCase()}
+          </span>
         </div>
-
-        <div class="score">
-            <span id="score-home">0</span> - <span id="score-away">0</span>
+        <div class="teams">
+          <div class="team">
+            <p><strong>Home</strong></p>
+            <p class="score">${match.score[0]?.score ?? 0}</p>
+          </div>
+          <div class="team">
+            <p><strong>Away</strong></p>
+            <p class="score">${match.score[1]?.score ?? 0}</p>
+          </div>
         </div>
-
-        <div class="status" id="status">Status: Live</div>
-        <div class="current-minute" id="current-minute">Minute: 0</div>
-
-        <div class="venue" id="venue">Venue: Old Trafford</div>
-        <div class="date" id="match-date">Match Date: 2025-11-10</div>
+        <p><strong>Minute:</strong> ${match.currentMinute}'</p>
+        <p><strong>Venue:</strong> ${match.venue}</p>
+        <p><strong>Date:</strong> ${new Date(match.date).toLocaleString()}</p>
 
         <div class="events">
-            <h3>Events</h3>
-            <ul id="events-list">
-                <!-- Event list items will be appended here -->
-            </ul>
+          <h3>Match Events:</h3>
+          ${
+            match.events.length
+              ? match.events
+                  .map(
+                    (event, i) =>
+                      `<div class="event-item">⚽ ${event.type} at ${event.minute}'</div>`
+                  )
+                  .join("")
+              : "<p>No events yet</p>"
+          }
         </div>
-    </div>
-
-    <script src="/socket.io/socket.io.js"></script>
-    <script>
-        const socket = io();
-
-        // Listen for 'matchUpdated' event from server
-        socket.on('matchUpdated', (data) => {
-            console.log("Received match data:", data);
-
-            const matchData = data.data; // Access match data from response
-
-            // Check if matchData exists and is correctly structured
-            if (matchData) {
-                // Update match card with new data
-                document.getElementById('home-team').innerText = matchData.home || 'Home Team';
-                document.getElementById('away-team').innerText = matchData.away || 'Away Team';
-                document.getElementById('score-home').innerText = matchData.score[0]?.score || 0;
-                document.getElementById('score-away').innerText = matchData.score[1]?.score || 0;
-                document.getElementById('status').innerText = `Status: ${matchData.status}`;
-                document.getElementById('current-minute').innerText = `Minute: ${matchData.currentMinute}`;
-                document.getElementById('venue').innerText = `Venue: ${matchData.venue}`;
-                document.getElementById('match-date').innerText = `Match Date: ${new Date(matchData.date).toLocaleString()}`;
-
-                // Handle events
-                const eventsList = document.getElementById('events-list');
-                eventsList.innerHTML = ''; // Clear existing events
-
-                if (matchData.events && matchData.events.length > 0) {
-                    matchData.events.forEach(event => {
-                        console.log("Event:", event); // Log each event object
-
-                        // Create event list item
-                        const li = document.createElement('li');
-                        li.className = 'event-item';
-
-                        // Check event type and minute
-                        const eventDescription = `Event: ${event.type} at minute ${event.minute}`;
-                        li.innerText = eventDescription || 'Event description not available';
-                        eventsList.appendChild(li);
-                    });
-                } else {
-                    // Handle case when there are no events
-                    const li = document.createElement('li');
-                    li.className = 'event-item';
-                    li.innerText = 'No events yet';
-                    eventsList.appendChild(li);
-                }
-            } else {
-                console.log("Match data is undefined or malformed:", matchData);
-            }
-        });
-    </script>
+      `;
+    });
+  </script>
 </body>
 </html>
